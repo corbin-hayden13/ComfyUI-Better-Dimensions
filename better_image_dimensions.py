@@ -174,17 +174,16 @@ class BetterDimensions:
                           order: str="default (width,height)"):
         """ Parameters are given as keywords arguments so they have to match the key of the input types return dict """
         swapped = order == "swapped (height,width)"
-        tuple_ratio = tuple([int(r) for r in ratio.split(":")])
-
         w = copy(width) if width > 0 else 64
         h = copy(height) if height > 0 else 64
-        enforce_width = enforce_dimension == "width"
-
-        if ratio == ratios[0]:
+        if ratio == str_ratios[0]:
             if swapped: return h, w
             else: return w, h
-        else: return apply_ratio(w, h, tuple_ratio, enforce_width=enforce_width,
-                                 swapped=swapped)
+
+        tuple_ratio = tuple([int(r) for r in ratio.split(":")])
+        enforce_width = enforce_dimension == "width"
+
+        return apply_ratio(w, h, tuple_ratio, enforce_width=enforce_width, swapped=swapped)
 
 
 NODE_CLASS_MAPPINGS = {
