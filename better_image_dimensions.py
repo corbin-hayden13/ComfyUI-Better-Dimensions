@@ -19,15 +19,16 @@ ratios = {
 str_ratios = list(ratios.keys())
 sdxl_dimensions = [
     "1024 x 1024",
-    "1144 x 915", "915 x 1144",  # 4:5
-    "1152 x 896", "896 x 1152",  # 7:9
-    "1182 x 886", "886 x 1182",  # 3:4
-    "1254 x 836", "836 x 1254",  # 2:3
-    "1216 x 832", "832 x 1216",  # 13:19
-    "1440 x 810", "810 x 1440",  # 9:16
-    "1344 x 768", "768 x 1344",  # 4:7
-    "1564 x 670", "670 x 1564",  # 9:21
-    "1536 x 640", "640 x 1536",  # 5:12
+    "896 x 1152",  # 7:9
+    "832 x 1216",  # 13:19
+    "768 x 1344",  # 4:7
+    "640 x 1536",  # 5:12
+    # Common dimensions but not SDXL compatible
+    # "1144 x 915", "915 x 1144",  # 4:5
+    # "1182 x 886", "886 x 1182",  # 3:4
+    # "1254 x 836", "836 x 1254",  # 2:3
+    # "1440 x 810", "810 x 1440",  # 9:16
+    # "1564 x 670", "670 x 1564",  # 9:21
 ]
 
 
@@ -83,7 +84,10 @@ class SDXLDimensions:
     @classmethod
     def INPUT_TYPES(s):
         return {
-            "required": {"dimensions": (sdxl_dimensions,),}
+            "required": {
+                "dimensions": (sdxl_dimensions,),
+                "order": (["default (width,height)", "swapped (height,width)"],),
+            }
         }
 
     RETURN_TYPES = ("INT", "INT")
@@ -92,8 +96,8 @@ class SDXLDimensions:
     FUNCTION = "better_dimensions"
     CATEGORY = "BetterDimensions"
 
-    def better_dimensions(self, dimension: str=""):
-        return tuple([int(dim) for dim in dimension.split(" x ")])
+    def better_dimensions(self, dimension: str="", order: str=""):
+        return tuple([int(dim) for dim in dimension.split(" x ")[::-1 if order == "swapped (height,width)" else 1]])
 
 
 class PureRatio:
