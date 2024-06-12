@@ -96,8 +96,8 @@ class SDXLDimensions:
     FUNCTION = "better_dimensions"
     CATEGORY = "BetterDimensions"
 
-    def better_dimensions(self, dimension: str="", order: str=""):
-        return tuple([int(dim) for dim in dimension.split(" x ")[::-1 if order == "swapped (height,width)" else 1]])
+    def better_dimensions(self, dimensions: str="", order: str=""):
+        return tuple([int(dim) for dim in dimensions.split(" x ")[::-1 if order == "swapped (height,width)" else 1]])
 
 
 class PureRatio:
